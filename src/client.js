@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux/configureStore';
 import routes from './routes';
 
-const initialState = window.REDUX_INITIAL_STATE || {};
+const initialState = window.fluxstate || {};
 const store = configureStore(initialState);
 
 const component = (
