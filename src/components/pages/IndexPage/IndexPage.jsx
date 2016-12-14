@@ -71,8 +71,13 @@ class IndexPage extends Component {
                           <FormControl type='text' placeholder='p#identifier>a.classname:first'/>
                         </InputGroup>
                       </FormGroup>
-                      <ProgressBar now={10} style={{ marginRight: '35px' }}/>
                       <StartStopButton/>
+                      <ProgressBar
+                        now={35}
+                        label='10 / 1000'
+                        bsStyle='danger'
+                        style={{ marginRight: '35px', marginTop: '15px' }}
+                      />
                     </Col>
                   </Row>
                 </Grid>
