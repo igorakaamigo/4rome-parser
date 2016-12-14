@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Button from 'react-bootstrap/lib/Button';
-import { startProcessing, stopProcessing } from 'redux/actions/parserActions';
+import Button from 'react-bootstrap-button-loader';
+import { startProcessing, abortProcessing } from 'redux/actions/parserActions';
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -9,7 +9,8 @@ const propTypes = {
   busyTitle: PropTypes.string.isRequired,
   idleStyle: PropTypes.string.isRequired,
   busyStyle: PropTypes.string.isRequired,
-  isBusy: PropTypes.bool.isRequired
+  isBusy: PropTypes.bool.isRequired,
+  isAborting: PropTypes.bool.isRequired
 };
 
 const defaultProps = {
@@ -17,13 +18,14 @@ const defaultProps = {
   busyTitle: 'Остановить',
   idleStyle: 'primary',
   busyStyle: 'danger',
-  isBusy: false
+  isBusy: false,
+  isAborting: false
 };
 
 class StartStopButton extends Component {
   handleClick() {
     if (this.props.isBusy) {
-      this.props.dispatch(stopProcessing());
+      this.props.dispatch(abortProcessing());
     } else {
       this.props.dispatch(startProcessing());
     }
@@ -34,7 +36,7 @@ class StartStopButton extends Component {
     const title = this.props.isBusy ? this.props.busyTitle : this.props.idleTitle;
 
     return (
-      <Button bsStyle={style} onClick={this.handleClick.bind(this)}>{title}</Button>
+      <Button loading={this.props.isAborting} bsStyle={style} onClick={this.handleClick.bind(this)}>{title}</Button>
     );
   }
 }
@@ -43,7 +45,10 @@ StartStopButton.propTypes = propTypes;
 StartStopButton.defaultProps = defaultProps;
 
 function mapStateToProps(state) {
-  return { isBusy: state.parser.busy };
+  return {
+    isBusy: state.parser.busy,
+    isAborting: state.parser.aborting
+  };
 }
 
 export default connect(mapStateToProps)(StartStopButton);

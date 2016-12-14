@@ -2,6 +2,7 @@ import { isParsing, haveUrlsToParse } from 'redux/models/parser';
 
 export const PARSER_PROCESSING_STARTED = 'PARSER_PROCESSING_STARTED';
 export const PARSER_PROCESSING_START_FAILED = 'PARSER_PROCESSING_START_FAILED';
+export const PARSER_PROCESSING_ABORTING = 'PARSER_PROCESSING_ABORTING';
 export const PARSER_PROCESSING_STOPPED = 'PARSER_PROCESSING_STOPPED';
 
 export const PARSER_URL_LIST_UPDATE = 'PARSER_URL_LIST_UPDATE';
@@ -16,6 +17,8 @@ export const PARSER_PARSE_CSS_STATUS_UPDATE = 'PARSER_PARSE_CSS_STATUS_UPDATE';
 export const PARSER_CSS_ALIAS_UPDATE = 'PARSER_CSS_ALIAS_UPDATE';
 export const PARSER_CSS_SELECTOR_UPDATE = 'PARSER_CSS_SELECTOR_UPDATE';
 
+export const PARSER_RESULT_CLEANUP = 'PARSER_RESULT_CLEANUP';
+export const PARSER_RESULT_ADD = 'PARSER_RESULT_ADD';
 
 function parserProcessingStarted() {
   return { type: PARSER_PROCESSING_STARTED };
@@ -23,6 +26,10 @@ function parserProcessingStarted() {
 
 function parserProcessingStartFailed(error) {
   return { type: PARSER_PROCESSING_START_FAILED, error };
+}
+
+function parserProcessingAborting() {
+  return { type: PARSER_PROCESSING_ABORTING };
 }
 
 function parserProcessingStopped() {
@@ -65,6 +72,41 @@ function parserCSSSelectorUpdate(value) {
   return { type: PARSER_CSS_SELECTOR_UPDATE, value };
 }
 
+function parserResultCleanup() {
+  return { type: PARSER_RESULT_CLEANUP };
+}
+
+function parserResultAdd(value) {
+  return { type: PARSER_RESULT_ADD, value };
+}
+
+function proceedWithUrls(dispatch, getState) {
+  const state = getState();
+  const position = state.parser.responseCount;
+  const PART_SIZE = 5;
+  const part = state.parser.urls.slice(position, position + PART_SIZE);
+
+  if (part.length > 0 && !state.parser.aborting) {
+    part.forEach((item) => {
+      dispatch(addResponse({
+        url: item,
+        status: '200 OK',
+        title: 'Тайтл страницы',
+        h1: 'H1 страницы',
+        keywords: 'Ключевые слова страницы',
+        description: 'Описание страницы',
+        css: 'Данные, полученные при помощи селектора'
+      }));
+    });
+    const t = setTimeout(() => {
+      clearTimeout(t);
+      proceedWithUrls(dispatch, getState);
+    }, 1000);
+  } else {
+    dispatch(parserProcessingStopped());
+  }
+}
+
 export function startProcessing() {
   return (dispatch, getState) => {
     const state = getState();
@@ -72,19 +114,22 @@ export function startProcessing() {
     if (isParsing(state)) {
       dispatch(parserProcessingStartFailed('Процесс уже запущен'));
     } else if (haveUrlsToParse(state)) {
+      dispatch(clearResponses());
       dispatch(parserProcessingStarted());
+
+      proceedWithUrls(dispatch, getState);
     } else {
       dispatch(parserProcessingStartFailed('Список URL пуст'));
     }
   };
 }
 
-export function stopProcessing() {
+export function abortProcessing() {
   return (dispatch, getState) => {
     const state = getState();
 
     if (isParsing(state)) {
-      dispatch(parserProcessingStopped());
+      dispatch(parserProcessingAborting());
     } else {
       dispatch(parserProcessingStartFailed('Процесс не запущен'));
     }
@@ -148,5 +193,17 @@ export function setCSSAlias(value) {
 export function setCSSSelector(value) {
   return (dispatch) => {
     dispatch(parserCSSSelectorUpdate(value));
+  };
+}
+
+export function clearResponses() {
+  return (dispatch) => {
+    dispatch(parserResultCleanup());
+  };
+}
+
+export function addResponse(value) {
+  return (dispatch) => {
+    dispatch(parserResultAdd(value));
   };
 }

@@ -1,6 +1,7 @@
 import {
   PARSER_PROCESSING_STARTED,
   PARSER_PROCESSING_START_FAILED,
+  PARSER_PROCESSING_ABORTING,
   PARSER_PROCESSING_STOPPED,
   PARSER_URL_LIST_UPDATE,
   PARSER_URL_LIST_TEXT_UPDATE,
@@ -12,11 +13,15 @@ import {
   PARSER_PARSE_CSS_STATUS_UPDATE,
 
   PARSER_CSS_ALIAS_UPDATE,
-  PARSER_CSS_SELECTOR_UPDATE
+  PARSER_CSS_SELECTOR_UPDATE,
+
+  PARSER_RESULT_CLEANUP,
+  PARSER_RESULT_ADD
 } from 'redux/actions/parserActions';
 
 const initialState = {
   busy: false,
+  aborting: false,
   error: null,
 
   urls: [],
@@ -42,8 +47,10 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { busy: true });
     case PARSER_PROCESSING_START_FAILED:
       return Object.assign({}, state, { error: action.error });
+    case PARSER_PROCESSING_ABORTING:
+      return Object.assign({}, state, { aborting: true });
     case PARSER_PROCESSING_STOPPED:
-      return Object.assign({}, state, { busy: false });
+      return Object.assign({}, state, { busy: false, aborting: false });
     case PARSER_URL_LIST_UPDATE:
       return Object.assign({}, state, { urls: action.urls, urlCount: action.urls.length });
     case PARSER_URL_LIST_TEXT_UPDATE:
@@ -62,6 +69,13 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { cssAlias: action.value });
     case PARSER_CSS_SELECTOR_UPDATE:
       return Object.assign({}, state, { cssSelector: action.value });
+    case PARSER_RESULT_CLEANUP:
+      return Object.assign({}, state, { responses: [], responseCount: 0 });
+    case PARSER_RESULT_ADD:
+      return Object.assign({}, state, {
+        responses: Array.concat(state.responses, action.value),
+        responseCount: state.responseCount + 1
+      });
     default:
       return state;
   }
