@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
+import Navbar from 'react-bootstrap/lib/Navbar';
+import { Link } from 'react-router';
 
 class IndexPage extends Component {
   render() {
@@ -8,7 +10,14 @@ class IndexPage extends Component {
         <Helmet
           title='Главная страница'
         />
-        <p>Это главная страница</p>
+        <Navbar inverse collapseOnSelect>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <Link to='/'>Четвёртый Рим: парсер</Link>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+        </Navbar>
       </div>
     );
   }
