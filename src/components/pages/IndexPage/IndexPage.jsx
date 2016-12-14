@@ -14,6 +14,7 @@ import Button from 'react-bootstrap/lib/Button';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import Table from 'react-bootstrap/lib/Table';
 import StartStopButton from 'components/common/StartStopButton';
+import UrlList from 'components/common/UrlList';
 
 import { Link } from 'react-router';
 
@@ -44,10 +45,7 @@ class IndexPage extends Component {
                       sm={8}
                       xs={8}
                     >
-                      <FormGroup>
-                        <ControlLabel>URL (32)</ControlLabel>
-                        <FormControl componentClass='textarea' rows={20} placeholder='Введите URL, по одному в строке'/>
-                      </FormGroup>
+                      <UrlList/>
                     </Col>
                     <Col
                       lg={4}
