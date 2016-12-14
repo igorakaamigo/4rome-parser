@@ -13,6 +13,7 @@ import Checkbox from 'react-bootstrap/lib/Checkbox';
 import Button from 'react-bootstrap/lib/Button';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import Table from 'react-bootstrap/lib/Table';
+import StartStopButton from 'components/common/StartStopButton';
 
 import { Link } from 'react-router';
 
@@ -71,7 +72,7 @@ class IndexPage extends Component {
                         </InputGroup>
                       </FormGroup>
                       <ProgressBar now={10} style={{ marginRight: '35px' }}/>
-                      <Button bsStyle='primary'>Поехали!</Button>
+                      <StartStopButton/>
                     </Col>
                   </Row>
                 </Grid>
@@ -80,17 +81,23 @@ class IndexPage extends Component {
           </Row>
           <Row className='show-grid'>
             <Col>
-              <Table striped bordered condensed hover>
+              <Table
+                striped
+                bordered
+                condensed
+                hover
+              >
                 <thead>
-                <tr>
-                  <td>#</td>
-                  <th>Ссылка</th>
-                  <th>Title</th>
-                  <th>H1</th>
-                  <th>Keywords</th>
-                  <th>Description</th>
-                  <th>CSS</th>
-                </tr>
+                  <tr>
+                    <td>#</td>
+                    <th>Ссылка</th>
+                    <th>Ответ сервера</th>
+                    <th>Title</th>
+                    <th>H1</th>
+                    <th>Keywords</th>
+                    <th>Description</th>
+                    <th>CSS</th>
+                  </tr>
                 </thead>
               </Table>
               <Button bsStyle='primary'>Экспорт в CSV</Button>

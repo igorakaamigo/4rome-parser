@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import dummyReducer from 'redux/reducers/dummyReducer';
+import parserReducer from 'redux/reducers/parserReducer';
 
 export default combineReducers({
-  dummy: dummyReducer
+  parser: parserReducer
 });
