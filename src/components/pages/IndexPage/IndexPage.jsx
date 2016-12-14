@@ -5,11 +5,11 @@ import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Panel from 'react-bootstrap/lib/Panel';
-import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import StartStopButton from 'components/common/StartStopButton';
 import UrlList from 'components/common/UrlList';
 import ParserOptions from 'components/common/ParserOptions';
 import ResultTable from 'components/common/ResultTable';
+import ParsingProgress from 'components/common/ParsingProgress';
 
 import { Link } from 'react-router';
 
@@ -50,12 +50,7 @@ class IndexPage extends Component {
                     >
                       <ParserOptions/>
                       <StartStopButton/>
-                      <ProgressBar
-                        now={35}
-                        label='10 / 1000'
-                        bsStyle='danger'
-                        style={{ marginRight: '35px', marginTop: '15px' }}
-                      />
+                      <ParsingProgress/>
                     </Col>
                   </Row>
                 </Grid>
