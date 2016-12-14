@@ -5,12 +5,11 @@ import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Panel from 'react-bootstrap/lib/Panel';
-import Button from 'react-bootstrap/lib/Button';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
-import Table from 'react-bootstrap/lib/Table';
 import StartStopButton from 'components/common/StartStopButton';
 import UrlList from 'components/common/UrlList';
 import ParserOptions from 'components/common/ParserOptions';
+import ResultTable from 'components/common/ResultTable';
 
 import { Link } from 'react-router';
 
@@ -65,26 +64,7 @@ class IndexPage extends Component {
           </Row>
           <Row className='show-grid'>
             <Col>
-              <Table
-                striped
-                bordered
-                condensed
-                hover
-              >
-                <thead>
-                  <tr>
-                    <td>#</td>
-                    <th>Ссылка</th>
-                    <th>Ответ сервера</th>
-                    <th>Title</th>
-                    <th>H1</th>
-                    <th>Keywords</th>
-                    <th>Description</th>
-                    <th>CSS</th>
-                  </tr>
-                </thead>
-              </Table>
-              <Button bsStyle='primary'>Экспорт в CSV</Button>
+              <ResultTable/>
             </Col>
           </Row>
         </Grid>

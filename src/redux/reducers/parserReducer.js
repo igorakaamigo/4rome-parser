@@ -30,7 +30,10 @@ const initialState = {
   parseCSS: false,
 
   cssAlias: '',
-  cssSelector: ''
+  cssSelector: '',
+
+  responses: [],
+  responseCount: 0
 };
 
 export default function (state = initialState, action) {
