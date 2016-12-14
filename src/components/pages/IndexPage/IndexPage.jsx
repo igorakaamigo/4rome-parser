@@ -5,16 +5,12 @@ import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Panel from 'react-bootstrap/lib/Panel';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import InputGroup from 'react-bootstrap/lib/InputGroup';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import Checkbox from 'react-bootstrap/lib/Checkbox';
 import Button from 'react-bootstrap/lib/Button';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import Table from 'react-bootstrap/lib/Table';
 import StartStopButton from 'components/common/StartStopButton';
 import UrlList from 'components/common/UrlList';
+import ParserOptions from 'components/common/ParserOptions';
 
 import { Link } from 'react-router';
 
@@ -53,22 +49,7 @@ class IndexPage extends Component {
                       sm={4}
                       xs={4}
                     >
-                      <FormGroup>
-                        <ControlLabel>Опции</ControlLabel>
-                        <Checkbox>Title</Checkbox>
-                        <Checkbox>H1</Checkbox>
-                        <Checkbox>Keywords</Checkbox>
-                        <Checkbox>Description</Checkbox>
-                      </FormGroup>
-                      <FormGroup style={{ paddingRight: '35px' }}>
-                        <InputGroup>
-                          <InputGroup.Addon>
-                            <input type='checkbox' aria-label='...'/>
-                          </InputGroup.Addon>
-                          <FormControl type='text' placeholder='Алиас'/>
-                          <FormControl type='text' placeholder='p#identifier>a.classname:first'/>
-                        </InputGroup>
-                      </FormGroup>
+                      <ParserOptions/>
                       <StartStopButton/>
                       <ProgressBar
                         now={35}

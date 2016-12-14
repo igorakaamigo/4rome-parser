@@ -7,6 +7,16 @@ export const PARSER_PROCESSING_STOPPED = 'PARSER_PROCESSING_STOPPED';
 export const PARSER_URL_LIST_UPDATE = 'PARSER_URL_LIST_UPDATE';
 export const PARSER_URL_LIST_TEXT_UPDATE = 'PARSER_URL_LIST_TEXT_UPDATE';
 
+export const PARSER_PARSE_TITLE_STATUS_UPDATE = 'PARSER_PARSE_TITLE_STATUS_UPDATE';
+export const PARSER_PARSE_H1_STATUS_UPDATE = 'PARSER_PARSE_H1_STATUS_UPDATE';
+export const PARSER_PARSE_KEYWORDS_STATUS_UPDATE = 'PARSER_PARSE_KEYWORDS_STATUS_UPDATE';
+export const PARSER_PARSE_DESCRIPTION_STATUS_UPDATE = 'PARSER_PARSE_DESCRIPTION_STATUS_UPDATE';
+export const PARSER_PARSE_CSS_STATUS_UPDATE = 'PARSER_PARSE_CSS_STATUS_UPDATE';
+
+export const PARSER_CSS_ALIAS_UPDATE = 'PARSER_CSS_ALIAS_UPDATE';
+export const PARSER_CSS_SELECTOR_UPDATE = 'PARSER_CSS_SELECTOR_UPDATE';
+
+
 function parserProcessingStarted() {
   return { type: PARSER_PROCESSING_STARTED };
 }
@@ -25,6 +35,34 @@ function parserUrlListUpdate(urls) {
 
 function parserUrlListTextUpdate(text) {
   return { type: PARSER_URL_LIST_TEXT_UPDATE, text };
+}
+
+function parserParseTitleStatusUpdate(status) {
+  return { type: PARSER_PARSE_TITLE_STATUS_UPDATE, status };
+}
+
+function parserParseH1StatusUpdate(status) {
+  return { type: PARSER_PARSE_H1_STATUS_UPDATE, status };
+}
+
+function parserParseKeywordsStatusUpdate(status) {
+  return { type: PARSER_PARSE_KEYWORDS_STATUS_UPDATE, status };
+}
+
+function parserParseDescriptionStatusUpdate(status) {
+  return { type: PARSER_PARSE_DESCRIPTION_STATUS_UPDATE, status };
+}
+
+function parserParseCSSStatusUpdate(status) {
+  return { type: PARSER_PARSE_CSS_STATUS_UPDATE, status };
+}
+
+function parserCSSAliasUpdate(value) {
+  return { type: PARSER_CSS_ALIAS_UPDATE, value };
+}
+
+function parserCSSSelectorUpdate(value) {
+  return { type: PARSER_CSS_SELECTOR_UPDATE, value };
 }
 
 export function startProcessing() {
@@ -68,5 +106,47 @@ export function setText(text) {
 
     dispatch(parserUrlListUpdate(values));
     dispatch(parserUrlListTextUpdate(text));
+  };
+}
+
+export function setParseTitleValue(value) {
+  return (dispatch) => {
+    dispatch(parserParseTitleStatusUpdate(value));
+  };
+}
+
+export function setParseH1Value(value) {
+  return (dispatch) => {
+    dispatch(parserParseH1StatusUpdate(value));
+  };
+}
+
+export function setParseKeywordsValue(value) {
+  return (dispatch) => {
+    dispatch(parserParseKeywordsStatusUpdate(value));
+  };
+}
+
+export function setParseDescriptionValue(value) {
+  return (dispatch) => {
+    dispatch(parserParseDescriptionStatusUpdate(value));
+  };
+}
+
+export function setParseCSSValue(value) {
+  return (dispatch) => {
+    dispatch(parserParseCSSStatusUpdate(value));
+  };
+}
+
+export function setCSSAlias(value) {
+  return (dispatch) => {
+    dispatch(parserCSSAliasUpdate(value));
+  };
+}
+
+export function setCSSSelector(value) {
+  return (dispatch) => {
+    dispatch(parserCSSSelectorUpdate(value));
   };
 }
