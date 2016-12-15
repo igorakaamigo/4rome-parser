@@ -1,4 +1,5 @@
 import { isParsing, haveUrlsToParse } from 'redux/models/parser';
+import fetch from 'isomorphic-fetch';
 
 export const PARSER_PROCESSING_STARTED = 'PARSER_PROCESSING_STARTED';
 export const PARSER_PROCESSING_START_FAILED = 'PARSER_PROCESSING_START_FAILED';
@@ -19,6 +20,8 @@ export const PARSER_CSS_SELECTOR_UPDATE = 'PARSER_CSS_SELECTOR_UPDATE';
 
 export const PARSER_RESULT_CLEANUP = 'PARSER_RESULT_CLEANUP';
 export const PARSER_RESULT_ADD = 'PARSER_RESULT_ADD';
+
+export const PARSER_PROCESSING_FAILURE = 'PARSER_PROCESSING_FAILURE';
 
 function parserProcessingStarted() {
   return { type: PARSER_PROCESSING_STARTED };
@@ -83,28 +86,40 @@ function parserResultAdd(value) {
 function proceedWithUrls(dispatch, getState) {
   const state = getState();
   const position = state.parser.responseCount;
-  const PART_SIZE = 5;
+  const PART_SIZE = 10;
   const part = state.parser.urls.slice(position, position + PART_SIZE);
 
   if (part.length > 0 && !state.parser.aborting) {
-    part.forEach((item) => {
-      dispatch(addResponse({
-        url: item,
-        status: '200 OK',
-        title: 'Тайтл страницы',
-        h1: 'H1 страницы',
-        keywords: 'Ключевые слова страницы',
-        description: 'Описание страницы',
-        css: 'Данные, полученные при помощи селектора'
-      }));
-    });
-    const t = setTimeout(() => {
-      clearTimeout(t);
-      proceedWithUrls(dispatch, getState);
-    }, 1000);
+    fetch(
+      '/fetch',
+      {
+        method: 'post',
+        headers: { 'Content-type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({
+          urls: part,
+          title: state.parser.parseTitle,
+          h1: state.parser.parseH1,
+          keywords: state.parser.parseKeywords,
+          description: state.parser.parseDescription,
+          css: state.parser.parseCSS,
+          selector: state.parser.cssSelector
+        })
+      })
+      .then(response => response.json())
+      .then((json) => {
+        json.map(item => dispatch(addResponse(item)));
+        proceedWithUrls(dispatch, getState);
+      })
+      .catch((error) => {
+        dispatch(parserProcessingFailure(error));
+      });
   } else {
     dispatch(parserProcessingStopped());
   }
+}
+
+function parserProcessingFailure(error) {
+  return { type: PARSER_PROCESSING_FAILURE, error };
 }
 
 export function startProcessing() {

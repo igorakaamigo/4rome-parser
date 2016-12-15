@@ -16,7 +16,8 @@ import {
   PARSER_CSS_SELECTOR_UPDATE,
 
   PARSER_RESULT_CLEANUP,
-  PARSER_RESULT_ADD
+  PARSER_RESULT_ADD,
+  PARSER_PROCESSING_FAILURE
 } from 'redux/actions/parserActions';
 
 const initialState = {
@@ -76,6 +77,8 @@ export default function (state = initialState, action) {
         responses: Array.concat(state.responses, action.value),
         responseCount: state.responseCount + 1
       });
+    case PARSER_PROCESSING_FAILURE:
+      return Object.assign({}, state, { busy: false, aborting: false, error: action.error });
     default:
       return state;
   }

@@ -6,10 +6,31 @@ import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import configureStore from 'redux/configureStore';
 import routes from './routes';
+import bodyParser from 'body-parser';
 
 const app = express();
 
 app.use(express.static(__dirname + '/../public'));
+
+app.use(bodyParser.json());
+
+app.post('/fetch', (req, res) => {
+  let result = [];
+
+  req.body.urls.forEach((url) => {
+    result.push({
+      url: url,
+      status: '200 OK',
+      title: 'Это вот тайтл страницы',
+      h1: 'Это H1 страницы',
+      keywords: 'Это ключевые слова страницы',
+      description: 'Это описание страницы',
+      css: 'Это данные, полученные при помощи селектора'
+    });
+  });
+
+  res.json(result);
+});
 
 app.use((req, res) => {
   const store = configureStore();
