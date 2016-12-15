@@ -23,7 +23,16 @@ app.post('/fetch', (req, res) => {
   req.body.urls.forEach((url) => {
     let response;
 
-    return fetch(url)
+    return fetch(url, {
+      method: 'get',
+      headers: {
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'accept-encoding': 'gzip, deflate, sdch, br',
+        'accept-language': 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+      },
+      cache: 'no-cache'
+    })
       .then((r) => {
         response = r;
         return r.text();
