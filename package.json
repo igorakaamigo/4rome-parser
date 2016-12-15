@@ -5,7 +5,8 @@
   "scripts": {
     "build": "export NODE_ENV='production'; webpack -p",
     "webpack-devserver": "webpack-dev-server --debug --hot --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base public --port 8052 --host 0.0.0.0",
-    "nodemon": "export NODE_PATH=./src; export NODE_ENV='development'; nodemon server.js"
+    "nodemon": "export NODE_PATH=./src; export NODE_ENV='development'; nodemon server.js",
+    "server": "export NODE_PATH=./src; export NODE_ENV='production'; node server.js"
   },
   "dependencies": {
     "babel-core": "^6.20.0",
@@ -51,6 +52,7 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "webpack-manifest-plugin": "^1.1.0"
   }
 }

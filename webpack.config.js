@@ -4,8 +4,9 @@ let webpack = require('webpack');
 let path = require('path');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let CleanWebpackPlugin = require('clean-webpack-plugin');
+let ManifestPlugin = require('webpack-manifest-plugin');
 
-let publicPath = 'http://localhost:8052/public/assets';
+let publicPath = process.env.NODE_ENV === 'production' ? '/assets/' : 'http://localhost:8052/public/assets/';
 let cssName = process.env.NODE_ENV === 'production' ? 'styles-[hash].css' : 'styles.css';
 let jsName = process.env.NODE_ENV === 'production' ? 'bundle-[hash].js' : 'bundle.js';
 
@@ -29,6 +30,9 @@ if (process.env.NODE_ENV === 'production') {
   );
   plugins.push(new webpack.optimize.DedupePlugin());
   plugins.push(new webpack.optimize.OccurenceOrderPlugin());
+  plugins.push(new ManifestPlugin({
+    fileName: '../../manifest.json'
+  }));
 }
 
 module.exports = {
