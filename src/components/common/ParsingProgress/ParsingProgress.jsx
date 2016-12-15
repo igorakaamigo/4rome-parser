@@ -42,7 +42,7 @@ function mapStateToProps(state) {
     isBusy: state.parser.busy,
     current: state.parser.responseCount,
     total: state.parser.urlCount,
-    now: state.parser.current / (state.parser.total > 0 ? state.parser.total : 1)
+    now: Math.round(100 * (state.parser.responseCount / state.parser.urlCount))
   };
 }
 
