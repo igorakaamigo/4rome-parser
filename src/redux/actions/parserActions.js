@@ -95,7 +95,7 @@ function proceedWithUrls(dispatch, getState) {
     fetch(
       '/fetch',
       {
-        method: 'post',
+        method: 'POST',
         headers: { 'Content-type': 'application/json; charset=utf-8' },
         body: JSON.stringify({
           urls: part,
