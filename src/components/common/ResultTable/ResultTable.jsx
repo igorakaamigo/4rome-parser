@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Table from 'react-bootstrap/lib/Table';
-import Button from 'react-bootstrap/lib/Button';
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -30,7 +29,6 @@ class ResultTable extends Component {
   render() {
     return (
       <div>
-        <Button disabled={this.props.isBusy} bsStyle='primary'>Экспорт таблицы в CSV</Button>
         <p>&nbsp;</p>
         <Table
           striped
