@@ -7,6 +7,8 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux/configureStore';
 import routes from './routes';
 import bodyParser from 'body-parser';
+import fetch from 'isomorphic-fetch';
+import jsdom from 'jsdom';
 
 const app = express();
 
@@ -15,21 +17,55 @@ app.use(express.static(__dirname + '/../public'));
 app.use(bodyParser.json());
 
 app.post('/fetch', (req, res) => {
+  const urls = req.body.urls;
   let result = [];
 
   req.body.urls.forEach((url) => {
-    result.push({
-      url: url,
-      status: '200 OK',
-      title: 'Это вот тайтл страницы',
-      h1: 'Это H1 страницы',
-      keywords: 'Это ключевые слова страницы',
-      description: 'Это описание страницы',
-      css: 'Это данные, полученные при помощи селектора'
-    });
-  });
+    let response;
 
-  res.json(result);
+    return fetch(url)
+      .then((r) => {
+        response = r;
+        return r.text();
+      })
+      .then(text => {
+        const dom = jsdom.jsdom(text);
+        const title = dom.querySelector('title');
+        const h1 = dom.querySelector('h1');
+        const keywords = dom.querySelector('meta[name=keywords]');
+        const description = dom.querySelector('meta[name=description]');
+        const css = req.body.css ? (dom.querySelector(req.body.selector)) : null;
+
+        result.push({
+          url: url,
+          status: `${response.status} ${response.statusText}`,
+          title: title ? title.textContent : '-',
+          h1: h1 ? h1.textContent : '-',
+          keywords: keywords ? keywords.attributes.content.textContent : '-',
+          description: description ? description.attributes.content.textContent : '-',
+          css: css ? css.textContent : '-'
+        });
+
+        if (urls.length === result.length) {
+          res.json(result);
+        }
+      })
+      .catch(error => {
+        result.push({
+          url: url,
+          status: error.toString(),
+          title: '-',
+          h1: '-',
+          keywords: '-',
+          description: '-',
+          css: '-'
+        });
+
+        if (urls.length === result.length) {
+          res.json(result);
+        }
+      });
+  });
 });
 
 app.use((req, res) => {
