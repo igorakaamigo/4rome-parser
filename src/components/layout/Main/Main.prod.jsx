@@ -11,7 +11,7 @@ class MainProd extends Component {
     return (
       <div>
         <Helmet
-          base={{ 'target': '_blank', 'href': '//localhost:3002/' }}
+          base={{ 'target': '_blank', 'href': process.env.NODE_URL || '//localhost:3002/' }}
         />
         <MainCommon>
           {this.props.children}
