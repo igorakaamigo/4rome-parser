@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "export NODE_ENV='production'; webpack -p",
+    "build": "export NODE_ENV='production'; export NODE_URL='//secret-cliffs-22297.herokuapp.com/'; webpack -p",
     "webpack-devserver": "webpack-dev-server --debug --hot --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base public --port 8052 --host 0.0.0.0",
     "nodemon": "export NODE_PATH=./src; export NODE_ENV='development'; nodemon server.js",
     "server": "export NODE_PATH=./src; export NODE_ENV='production'; node server.js"
