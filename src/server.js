@@ -121,8 +121,8 @@ function renderHTML(markup, head, initialState) {
     <!DOCTYPE html>
     <html ${head.htmlAttributes.toString()}>
     <head>
+        <base target="_blank" href="${process.env.NODE_ENV === 'production' ? process.env.NODE_URL : '//localhost:3002/'}"/>
         ${head.meta.toString()}
-        ${head.base.toString()}
         ${head.title.toString()}
         <link rel="stylesheet" href="${assetUrl + cssBundle}">
         <script type="application/javascript">

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Helmet from 'react-helmet';
 import MainCommon from './Main.common';
 
 const propTypes = {
@@ -9,14 +8,9 @@ const propTypes = {
 class MainProd extends Component {
   render() {
     return (
-      <div>
-        <Helmet
-          base={{ 'target': '_blank', 'href': process.env.NODE_URL || '//localhost:3002/' }}
-        />
-        <MainCommon>
-          {this.props.children}
-        </MainCommon>
-      </div>
+      <MainCommon>
+        {this.props.children}
+      </MainCommon>
     );
   }
 }
