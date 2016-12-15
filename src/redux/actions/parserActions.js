@@ -23,6 +23,8 @@ export const PARSER_RESULT_ADD = 'PARSER_RESULT_ADD';
 
 export const PARSER_PROCESSING_FAILURE = 'PARSER_PROCESSING_FAILURE';
 
+export const PARSER_CLEAR_ERROR = 'PARSER_CLEAR_ERROR';
+
 function parserProcessingStarted() {
   return { type: PARSER_PROCESSING_STARTED };
 }
@@ -111,7 +113,7 @@ function proceedWithUrls(dispatch, getState) {
         proceedWithUrls(dispatch, getState);
       })
       .catch((error) => {
-        dispatch(parserProcessingFailure(error));
+        dispatch(parserProcessingFailure(error.message));
       });
   } else {
     dispatch(parserProcessingStopped());
@@ -120,6 +122,10 @@ function proceedWithUrls(dispatch, getState) {
 
 function parserProcessingFailure(error) {
   return { type: PARSER_PROCESSING_FAILURE, error };
+}
+
+function parserClearError() {
+  return { type: PARSER_CLEAR_ERROR };
 }
 
 export function startProcessing() {
@@ -220,5 +226,11 @@ export function clearResponses() {
 export function addResponse(value) {
   return (dispatch) => {
     dispatch(parserResultAdd(value));
+  };
+}
+
+export function clearError() {
+  return (dispatch) => {
+    dispatch(parserClearError());
   };
 }

@@ -17,7 +17,9 @@ import {
 
   PARSER_RESULT_CLEANUP,
   PARSER_RESULT_ADD,
-  PARSER_PROCESSING_FAILURE
+  PARSER_PROCESSING_FAILURE,
+
+  PARSER_CLEAR_ERROR
 } from 'redux/actions/parserActions';
 
 const initialState = {
@@ -79,6 +81,8 @@ export default function (state = initialState, action) {
       });
     case PARSER_PROCESSING_FAILURE:
       return Object.assign({}, state, { busy: false, aborting: false, error: action.error });
+    case PARSER_CLEAR_ERROR:
+      return Object.assign({}, state, { error: null });
     default:
       return state;
   }

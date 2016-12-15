@@ -10,6 +10,7 @@ import UrlList from 'components/common/UrlList';
 import ParserOptions from 'components/common/ParserOptions';
 import ResultTable from 'components/common/ResultTable';
 import ParsingProgress from 'components/common/ParsingProgress';
+import ErrorDialog from 'components/common/ErrorDialog';
 
 import { Link } from 'react-router';
 
@@ -28,6 +29,7 @@ class IndexPage extends Component {
             <Navbar.Toggle />
           </Navbar.Header>
         </Navbar>
+        <ErrorDialog/>
         <Grid>
           <Row className='show-grid'>
             <Col>
