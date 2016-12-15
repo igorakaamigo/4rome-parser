@@ -16,7 +16,7 @@ app.use(express.static(__dirname + '/../public'));
 
 app.use(bodyParser.json());
 
-app.post('/fetch', (req, res) => {
+app.options('/fetch', (req, res) => {
   const urls = req.body.urls;
   let result = [];
 
